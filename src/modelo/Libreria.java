@@ -172,8 +172,9 @@ public class Libreria {
         return venta.remove(unaVenta);
     }
     
-    public boolean eliminarEditorial(Editorial unaEditorial){
-        return editorial.remove(unaEditorial);
+    public boolean eliminarEditorial(int indice){
+        editorial.remove(indice);
+        return true;
     }
     
     public boolean eliminarLibro(Libro unLibro){
@@ -184,7 +185,8 @@ public class Libreria {
         return cliente.remove(unCliente);
     }
     
-    public boolean eliminarAutor(Autor unAutor){
-        return autor.remove(unAutor);
+    public boolean eliminarAutor(int indice){
+        autor.remove(indice);
+        return true;
     }
 }

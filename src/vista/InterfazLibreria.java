@@ -5,10 +5,7 @@
  */
 package vista;
 
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.util.ArrayList;
-import java.util.Iterator;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
@@ -75,6 +72,10 @@ public class InterfazLibreria extends javax.swing.JFrame{
     void modificarEditorial(int indice, Editorial editorial) {
         libreria.modificarEditorial(indice, editorial);
     }
+    
+    public void eliminarEditorial(int indice){
+        libreria.eliminarEditorial(indice);
+    }
 
     public ArrayList<Autor> darListaAutor() {
         return libreria.darListaAutor();
@@ -86,6 +87,10 @@ public class InterfazLibreria extends javax.swing.JFrame{
 
     public void agregarAutor(Autor autor) {
         libreria.agregarAutor(autor);
+    }
+    
+    public void eliminarAutor(int indice){
+        libreria.eliminarAutor(indice);
     }
 
 //    public void mostrarTablaAutores() {
@@ -347,6 +352,11 @@ public class InterfazLibreria extends javax.swing.JFrame{
         });
 
         btnEliminarEditorial.setText("Eliminar Editorial");
+        btnEliminarEditorial.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarEditorialActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -456,6 +466,11 @@ public class InterfazLibreria extends javax.swing.JFrame{
         });
 
         btnEliminarAutor.setText("Eliminar Autor");
+        btnEliminarAutor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarAutorActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -587,7 +602,7 @@ public class InterfazLibreria extends javax.swing.JFrame{
             ed.setEnabled(true);
             ed.setLocationRelativeTo(this);
             ed.setVisible(true);
-        }
+           }
     }//GEN-LAST:event_btnEditarAutorActionPerformed
 
     private void btnAgregarEditorialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarEditorialActionPerformed
@@ -610,6 +625,28 @@ public class InterfazLibreria extends javax.swing.JFrame{
             ed.setVisible(true);
         }
     }//GEN-LAST:event_btnEditarEditorialActionPerformed
+
+    private void btnEliminarEditorialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarEditorialActionPerformed
+        if(jtDatosEditorial.getSelectedRow()==-1){
+            JOptionPane.showMessageDialog(this, "Debe seleccionar un elemento de la lista", "Eliminar elemento", JOptionPane.ERROR_MESSAGE);
+        }else{
+            int indice = jtDatosEditorial.getSelectedRow();
+            eliminarEditorial(indice);
+            modelEditorial.removeRow(indice);
+            JOptionPane.showMessageDialog(this, "Eliminación exitosa!!!", "Eliminar elemento", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }//GEN-LAST:event_btnEliminarEditorialActionPerformed
+
+    private void btnEliminarAutorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarAutorActionPerformed
+        if(jtDatosAutor.getSelectedRow()==-1){
+            JOptionPane.showMessageDialog(this, "Debe seleccionar un elemento de la lista", "Eliminar elemento", JOptionPane.ERROR_MESSAGE);
+        }else{
+            int indice = jtDatosAutor.getSelectedRow();
+            eliminarAutor(indice);
+            model.removeRow(indice);
+            JOptionPane.showMessageDialog(this, "Eliminación exitosa!!!", "Eliminar elemento", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }//GEN-LAST:event_btnEliminarAutorActionPerformed
 
     /**
      * @param args the command line arguments

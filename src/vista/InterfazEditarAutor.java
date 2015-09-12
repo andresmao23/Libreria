@@ -172,8 +172,7 @@ public class InterfazEditarAutor extends javax.swing.JDialog {
         interfazLibreria.model.setValueAt(autor.darNacionalidad(), interfazLibreria.jtDatosAutor.getSelectedRow(), 3);
         interfazLibreria.model.setValueAt(autor.darFecha().darFechaCompleta(), interfazLibreria.jtDatosAutor.getSelectedRow(), 4);
 
-        
-    
+        JOptionPane.showMessageDialog(this, "Edición exitosa!!!", "Seleccionar elemento", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_btnGuardarNuevoAutorActionPerformed
 
     private void btnCancelarNuevoAutorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarNuevoAutorActionPerformed

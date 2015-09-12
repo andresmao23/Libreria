@@ -443,6 +443,9 @@
                       <Properties>
                         <Property name="text" type="java.lang.String" value="Eliminar Editorial"/>
                       </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEliminarEditorialActionPerformed"/>
+                      </Events>
                     </Component>
                   </SubComponents>
                 </Container>
@@ -648,6 +651,9 @@
                       <Properties>
                         <Property name="text" type="java.lang.String" value="Eliminar Autor"/>
                       </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEliminarAutorActionPerformed"/>
+                      </Events>
                     </Component>
                     <Component class="javax.swing.JTextField" name="txtBuscarAutor">
                     </Component>

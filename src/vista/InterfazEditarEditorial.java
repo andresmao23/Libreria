@@ -5,6 +5,7 @@
  */
 package vista;
 
+import javax.swing.JOptionPane;
 import modelo.Editorial;
 
 /**
@@ -103,6 +104,7 @@ public class InterfazEditarEditorial extends javax.swing.JFrame {
         editorial.cmabiarNombre(nombre);
         interfazLibreria.modificarEditorial(indice, editorial);
         interfazLibreria.modelEditorial.setValueAt(editorial.darNombre(), interfazLibreria.jtDatosEditorial.getSelectedRow(), 0);
+        JOptionPane.showMessageDialog(this, "Edición exitosa!!!", "Seleccionar elemento", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_btnGuardarNuevaEditorialActionPerformed
 
     
