@@ -5,10 +5,14 @@
  */
 package vista;
 
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import javax.swing.RowFilter;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 import modelo.Autor;
 import modelo.Editorial;
 import modelo.Libreria;
@@ -18,6 +22,8 @@ import modelo.Libreria;
  * @author Mao
  */
 public class InterfazLibreria extends javax.swing.JFrame{
+    
+    private TableRowSorter tr; //creamos el filtro
 
     private Libreria libreria;
     DefaultTableModel model, modelEditorial;
@@ -151,6 +157,8 @@ public class InterfazLibreria extends javax.swing.JFrame{
         btnAgregarEditorial = new javax.swing.JButton();
         btnEditarEditorial = new javax.swing.JButton();
         btnEliminarEditorial = new javax.swing.JButton();
+        lblBuscarEditorial = new javax.swing.JLabel();
+        txtBuscarEditorial = new javax.swing.JTextField();
         jpAutor = new javax.swing.JPanel();
         pnlListaAutores = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
@@ -158,9 +166,9 @@ public class InterfazLibreria extends javax.swing.JFrame{
         jPanel1 = new javax.swing.JPanel();
         btnAgregarAutor = new javax.swing.JButton();
         btnEditarAutor = new javax.swing.JButton();
-        btnBuscarAutor = new javax.swing.JButton();
         btnEliminarAutor = new javax.swing.JButton();
         txtBuscarAutor = new javax.swing.JTextField();
+        lblBuscarAutor = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Book Store");
@@ -358,6 +366,14 @@ public class InterfazLibreria extends javax.swing.JFrame{
             }
         });
 
+        lblBuscarEditorial.setText("Buscar Editorial:");
+
+        txtBuscarEditorial.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtBuscarEditorialKeyTyped(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -370,6 +386,12 @@ public class InterfazLibreria extends javax.swing.JFrame{
                 .addGap(35, 35, 35)
                 .addComponent(btnEliminarEditorial)
                 .addGap(21, 21, 21))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(56, 56, 56)
+                .addComponent(lblBuscarEditorial, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(txtBuscarEditorial, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -379,7 +401,11 @@ public class InterfazLibreria extends javax.swing.JFrame{
                     .addComponent(btnAgregarEditorial)
                     .addComponent(btnEditarEditorial)
                     .addComponent(btnEliminarEditorial))
-                .addContainerGap(42, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblBuscarEditorial)
+                    .addComponent(txtBuscarEditorial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(24, 24, 24))
         );
 
         javax.swing.GroupLayout pnlDatosEditorialLayout = new javax.swing.GroupLayout(pnlDatosEditorial);
@@ -400,7 +426,7 @@ public class InterfazLibreria extends javax.swing.JFrame{
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(32, 32, 32)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(189, Short.MAX_VALUE))
+                .addContainerGap(159, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jpEditorialLayout = new javax.swing.GroupLayout(jpEditorial);
@@ -458,13 +484,6 @@ public class InterfazLibreria extends javax.swing.JFrame{
             }
         });
 
-        btnBuscarAutor.setText("Buscar");
-        btnBuscarAutor.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnBuscarAutorActionPerformed(evt);
-            }
-        });
-
         btnEliminarAutor.setText("Eliminar Autor");
         btnEliminarAutor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -472,36 +491,49 @@ public class InterfazLibreria extends javax.swing.JFrame{
             }
         });
 
+        txtBuscarAutor.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtBuscarAutorKeyTyped(evt);
+            }
+        });
+
+        lblBuscarAutor.setText("Buscar Autor:");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(37, 37, 37)
-                .addComponent(btnAgregarAutor)
-                .addGap(93, 93, 93)
-                .addComponent(btnEditarAutor)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 96, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(btnBuscarAutor)
-                        .addGap(73, 73, 73)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(lblBuscarAutor, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(109, 109, 109)
+                        .addComponent(btnAgregarAutor)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(btnEditarAutor)
+                        .addGap(93, 93, 93)
                         .addComponent(btnEliminarAutor))
-                    .addComponent(txtBuscarAutor))
-                .addGap(60, 60, 60))
+                    .addComponent(txtBuscarAutor, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(124, 124, 124))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(12, Short.MAX_VALUE)
-                .addComponent(txtBuscarAutor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAgregarAutor)
-                    .addComponent(btnEliminarAutor)
-                    .addComponent(btnBuscarAutor)
-                    .addComponent(btnEditarAutor))
-                .addGap(34, 34, 34))
+                    .addComponent(btnEditarAutor)
+                    .addComponent(btnEliminarAutor))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtBuscarAutor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblBuscarAutor))
+                .addGap(27, 27, 27))
         );
 
         javax.swing.GroupLayout pnlListaAutoresLayout = new javax.swing.GroupLayout(pnlListaAutores);
@@ -522,7 +554,7 @@ public class InterfazLibreria extends javax.swing.JFrame{
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 303, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(29, 29, 29))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout jpAutorLayout = new javax.swing.GroupLayout(jpAutor);
@@ -587,10 +619,6 @@ public class InterfazLibreria extends javax.swing.JFrame{
 
     }//GEN-LAST:event_btnAgregarAutorActionPerformed
 
-    private void btnBuscarAutorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarAutorActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnBuscarAutorActionPerformed
-
     private void btnEditarAutorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarAutorActionPerformed
         ArrayList<Autor> lista = libreria.darListaAutor();
         if(jtDatosAutor.getSelectedRow()==-1){
@@ -648,6 +676,38 @@ public class InterfazLibreria extends javax.swing.JFrame{
         }
     }//GEN-LAST:event_btnEliminarAutorActionPerformed
 
+//    public void filtro() {
+//       tr.setRowFilter(RowFilter.regexFilter(txtBuscarAutor.getText(), 0));//el 0 es el numero de columna a filtrar
+//    }
+    
+    private void txtBuscarAutorKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarAutorKeyTyped
+        txtBuscarAutor.addKeyListener(new KeyAdapter() {
+        public void keyReleased(final KeyEvent e) {
+            String cadena = (txtBuscarAutor.getText()).trim();
+            txtBuscarAutor.setText(cadena);
+            repaint();
+            tr.setRowFilter(RowFilter.regexFilter(txtBuscarAutor.getText(), 0));//Esta linea es practicamente el FILTRO, el 0 es el numero de columna a filtrar
+            //filtro();
+        }
+        });
+        tr = new TableRowSorter(jtDatosAutor.getModel());
+        jtDatosAutor.setRowSorter(tr);
+    }//GEN-LAST:event_txtBuscarAutorKeyTyped
+
+    private void txtBuscarEditorialKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarEditorialKeyTyped
+        txtBuscarEditorial.addKeyListener(new KeyAdapter() {
+        public void keyReleased(final KeyEvent e) {
+            String cadena = (txtBuscarEditorial.getText()).trim();
+            txtBuscarEditorial.setText(cadena);
+            repaint();
+            tr.setRowFilter(RowFilter.regexFilter(txtBuscarEditorial.getText(), 0));//Esta linea es practicamente el FILTRO, el 0 es el numero de columna a filtrar
+            //filtro();
+        }
+        });
+        tr = new TableRowSorter(jtDatosEditorial.getModel());
+        jtDatosEditorial.setRowSorter(tr);
+    }//GEN-LAST:event_txtBuscarEditorialKeyTyped
+
     /**
      * @param args the command line arguments
      */
@@ -682,7 +742,6 @@ public class InterfazLibreria extends javax.swing.JFrame{
     private javax.swing.JButton btnAgregarAutor;
     private javax.swing.JButton btnAgregarEditorial;
     private javax.swing.JButton btnAgregarLibro;
-    private javax.swing.JButton btnBuscarAutor;
     private javax.swing.JButton btnCancelarCompra;
     private javax.swing.JButton btnComprarLibro;
     private javax.swing.JButton btnEditarAutor;
@@ -706,15 +765,19 @@ public class InterfazLibreria extends javax.swing.JFrame{
     public javax.swing.JTable jtDatosEditorial;
     private javax.swing.JTable jtDatosLibro;
     private javax.swing.JTable jtDetalleCopra;
+    private javax.swing.JLabel lblBuscarAutor;
+    private javax.swing.JLabel lblBuscarEditorial;
     private javax.swing.JLabel lblTotal;
     private javax.swing.JPanel pnlDatosEditorial;
     private javax.swing.JPanel pnlDetalleCompra;
     private javax.swing.JPanel pnlListaAutores;
     private javax.swing.JPanel pnlListaLibros;
     private javax.swing.JTextField txtBuscarAutor;
+    private javax.swing.JTextField txtBuscarEditorial;
     private javax.swing.JTextField txtTotal;
     // End of variables declaration//GEN-END:variables
 
    
+    
 
 }
