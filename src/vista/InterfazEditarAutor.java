@@ -5,7 +5,11 @@
  */
 package vista;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import modelo.Autor;
 import modelo.Fecha;
@@ -19,6 +23,7 @@ public class InterfazEditarAutor extends javax.swing.JDialog {
     private  int indice;
     
     String nombre, apellido, identificacion, nacionalidad, fecha;
+    //Date fecha;
 
     /**
      * Creates new form InterfazEditarAutor
@@ -28,6 +33,7 @@ public class InterfazEditarAutor extends javax.swing.JDialog {
         
         interfazLibreria = win;
         initComponents();
+        jDateChooser1.getDateEditor().setEnabled(false);
         
     }
 
@@ -161,6 +167,7 @@ public class InterfazEditarAutor extends javax.swing.JDialog {
         autor.cambiarNacionalidad(nacionalidad);
         SimpleDateFormat formatoFecha = new SimpleDateFormat("dd-MM-yyyy");
         fecha = formatoFecha.format(jDateChooser1.getDate());
+        //fecha = jDateChooser1.getDate();
         Fecha f = new Fecha();
         f.cambiarFecha(fecha);
         autor.cambiarFechaNacimiento(f);
@@ -184,7 +191,14 @@ public class InterfazEditarAutor extends javax.swing.JDialog {
         txtEditarApellidoAutor.setText(a.darApellido());
         txtEditarIdAutor.setText(a.darIdentificacion());
         txtEditarNacionalidadAutor.setText(a.darNacionalidad());
-        //jDateChooser1.setDate(a.darFecha().darFechaCompleta());
+        
+        SimpleDateFormat formatoFecha = new SimpleDateFormat("dd-MM-yyyy");
+        try {
+            Date f = formatoFecha.parse(a.darFecha().darFechaCompleta());
+            jDateChooser1.setDate(f);
+        } catch (ParseException ex) {
+            Logger.getLogger(InterfazEditarAutor.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     /**
      * @param args the command line arguments

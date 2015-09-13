@@ -48,6 +48,7 @@ public class InterfazAgregarLibro extends javax.swing.JFrame {
         initComponents();
         llenarAutor();
         llenarEditorial();
+        jDateChooser1.getDateEditor().setEnabled(false);
     }
 
     public void llenarAutor() {

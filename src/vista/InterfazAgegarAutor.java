@@ -22,6 +22,7 @@ public class InterfazAgegarAutor extends javax.swing.JFrame {
     Libreria libreria;
 
     String nombre, apellido, identificacion, nacionalidad, fecha;
+    //Date fecha;
 
     /**
      * Creates new form InterfazAgegarAutor
@@ -30,6 +31,7 @@ public class InterfazAgegarAutor extends javax.swing.JFrame {
         initComponents();
         interfazLibreria = win;
         libreria = new Libreria();
+        jDateChooser1.getDateEditor().setEnabled(false);
     }
 
     /**
@@ -158,6 +160,7 @@ public class InterfazAgegarAutor extends javax.swing.JFrame {
         autor.cambiarNacionalidad(nacionalidad);
         SimpleDateFormat formatoFecha = new SimpleDateFormat("dd-MM-yyyy");
         fecha = formatoFecha.format(jDateChooser1.getDate());
+        //fecha = jDateChooser1.getDate();
         Fecha f = new Fecha();
         f.cambiarFecha(fecha);
         autor.cambiarFechaNacimiento(f);
