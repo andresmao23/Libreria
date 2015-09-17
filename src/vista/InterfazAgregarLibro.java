@@ -5,24 +5,33 @@
  */
 package vista;
 
+import java.awt.Graphics;
+import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.nio.file.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import modelo.Autor;
 import modelo.Editorial;
 import modelo.Fecha;
+import modelo.Imagen;
 import modelo.Libreria;
+import modelo.Libro;
 
 /**
  *
  * @author Mao
  */
-public class InterfazAgregarLibro extends javax.swing.JFrame {
-    
+public class InterfazAgregarLibro extends javax.swing.JDialog {
+
     private InterfazLibreria interfazLibreria;
 
     private String nombre;
@@ -39,12 +48,15 @@ public class InterfazAgregarLibro extends javax.swing.JFrame {
 
     File archivo;
 
+    byte[] bytesImg;
+
     /**
      * Creates new form InterfazAgregarLibro
      */
     public InterfazAgregarLibro(InterfazLibreria win) {
         interfazLibreria = win;
         seleccionado = new JFileChooser();
+        this.setModal(true);
         initComponents();
         llenarAutor();
         llenarEditorial();
@@ -57,7 +69,7 @@ public class InterfazAgregarLibro extends javax.swing.JFrame {
             jcAutorLibro.addItem(lista.get(i).darNombre());
         }
     }
-    
+
     public void llenarEditorial() {
         ArrayList<Editorial> lista = interfazLibreria.darListaEditorial();
         for (int i = 0; i < lista.size(); i++) {
@@ -92,6 +104,7 @@ public class InterfazAgregarLibro extends javax.swing.JFrame {
         btnGuardarLibro = new javax.swing.JButton();
         btnCancelarLibro = new javax.swing.JButton();
         jDateChooser1 = new com.toedter.calendar.JDateChooser();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Agregar Libro");
@@ -140,67 +153,71 @@ public class InterfazAgregarLibro extends javax.swing.JFrame {
         jpAgregarLibroLayout.setHorizontalGroup(
             jpAgregarLibroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jpAgregarLibroLayout.createSequentialGroup()
+                .addGap(56, 56, 56)
+                .addComponent(btnGuardarLibro)
+                .addContainerGap(499, Short.MAX_VALUE))
+            .addGroup(jpAgregarLibroLayout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(jpAgregarLibroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jpAgregarLibroLayout.createSequentialGroup()
-                        .addContainerGap()
+                        .addGroup(jpAgregarLibroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblEditorialLibro, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblAutorLibro, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jpAgregarLibroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(lblCantidadLibro, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 68, Short.MAX_VALUE)
+                                .addComponent(lblImagenLibro, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jpAgregarLibroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtCantidadLibro, javax.swing.GroupLayout.DEFAULT_SIZE, 225, Short.MAX_VALUE)
+                            .addComponent(jcAutorLibro, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jcEditorialLibro, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(jpAgregarLibroLayout.createSequentialGroup()
+                                .addGap(68, 68, 68)
+                                .addComponent(btnCancelarLibro))
+                            .addComponent(jDateChooser1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnImagenLibro, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(jpAgregarLibroLayout.createSequentialGroup()
+                        .addGroup(jpAgregarLibroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(lblIdiomaLibro, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblNombreLibro, javax.swing.GroupLayout.DEFAULT_SIZE, 85, Short.MAX_VALUE))
                         .addGroup(jpAgregarLibroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jpAgregarLibroLayout.createSequentialGroup()
-                                .addGroup(jpAgregarLibroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(lblEditorialLibro, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lblAutorLibro, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jpAgregarLibroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addComponent(lblCantidadLibro, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 68, Short.MAX_VALUE)
-                                        .addComponent(lblImagenLibro, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(jpAgregarLibroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(txtCantidadLibro, javax.swing.GroupLayout.DEFAULT_SIZE, 225, Short.MAX_VALUE)
-                                    .addComponent(jcAutorLibro, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jcEditorialLibro, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addGroup(jpAgregarLibroLayout.createSequentialGroup()
-                                        .addGap(68, 68, 68)
-                                        .addComponent(btnCancelarLibro))
-                                    .addComponent(jDateChooser1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(btnImagenLibro, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                            .addGroup(jpAgregarLibroLayout.createSequentialGroup()
-                                .addGroup(jpAgregarLibroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(lblIdiomaLibro, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(lblNombreLibro, javax.swing.GroupLayout.DEFAULT_SIZE, 85, Short.MAX_VALUE))
-                                .addGroup(jpAgregarLibroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jpAgregarLibroLayout.createSequentialGroup()
-                                        .addGap(18, 18, 18)
-                                        .addComponent(txtNombreLibro, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpAgregarLibroLayout.createSequentialGroup()
-                                        .addGap(18, 18, 18)
-                                        .addComponent(txtIdiomaLibro, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                    .addGroup(jpAgregarLibroLayout.createSequentialGroup()
-                        .addGap(56, 56, 56)
-                        .addComponent(btnGuardarLibro)))
-                .addContainerGap(33, Short.MAX_VALUE))
+                                .addGap(18, 18, 18)
+                                .addComponent(txtNombreLibro, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpAgregarLibroLayout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addComponent(txtIdiomaLibro, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(74, 74, 74))
         );
         jpAgregarLibroLayout.setVerticalGroup(
             jpAgregarLibroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jpAgregarLibroLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jpAgregarLibroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblNombreLibro)
-                    .addComponent(txtNombreLibro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jpAgregarLibroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblIdiomaLibro)
-                    .addComponent(txtIdiomaLibro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jpAgregarLibroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblCantidadLibro)
-                    .addComponent(txtCantidadLibro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jpAgregarLibroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblAutorLibro)
-                    .addComponent(jcAutorLibro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jpAgregarLibroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblEditorialLibro)
-                    .addComponent(jcEditorialLibro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jpAgregarLibroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jpAgregarLibroLayout.createSequentialGroup()
+                        .addGroup(jpAgregarLibroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblNombreLibro)
+                            .addComponent(txtNombreLibro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jpAgregarLibroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblIdiomaLibro)
+                            .addComponent(txtIdiomaLibro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jpAgregarLibroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblCantidadLibro)
+                            .addComponent(txtCantidadLibro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jpAgregarLibroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblAutorLibro)
+                            .addComponent(jcAutorLibro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(21, 21, 21)
+                        .addGroup(jpAgregarLibroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblEditorialLibro)
+                            .addComponent(jcEditorialLibro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addGroup(jpAgregarLibroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblImagenLibro)
@@ -209,7 +226,7 @@ public class InterfazAgregarLibro extends javax.swing.JFrame {
                 .addGroup(jpAgregarLibroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1)
                     .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 60, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 69, Short.MAX_VALUE)
                 .addGroup(jpAgregarLibroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnGuardarLibro)
                     .addComponent(btnCancelarLibro))
@@ -242,47 +259,57 @@ public class InterfazAgregarLibro extends javax.swing.JFrame {
             nombre = txtNombreLibro.getText();
             idioma = txtIdiomaLibro.getText();
             cantidad = Integer.parseInt(txtCantidadLibro.getText());
-            Autor a = (Autor) jcAutorLibro.getSelectedItem();
-            Editorial e = (Editorial) jcEditorialLibro.getSelectedItem();
+            int indiceAutor = jcAutorLibro.getSelectedIndex();
+            int indiceEditorial = jcEditorialLibro.getSelectedIndex();
             SimpleDateFormat formatoFecha = new SimpleDateFormat("dd-MM-yyyy");
             fecha = formatoFecha.format(jDateChooser1.getDate());
+            Fecha unaFecha = new Fecha(fecha);
+            Imagen unaImagen = new Imagen(archivo.getName());
+            Autor unAutor = interfazLibreria.darAutor(indiceAutor);
+            Editorial unaEditorial = interfazLibreria.darEditorial(indiceEditorial);
+            Libro unLibro = new Libro(nombre, idioma, cantidad, unAutor, unaEditorial, unaImagen, unaFecha);
+            interfazLibreria.agregarLibro(unLibro);
+            interfazLibreria.modelLibro.addRow(new Object[]{unLibro.darNombre(),unLibro.darAutor().darNombre(),unLibro.darEditorial().darNombre(),unLibro.darCantidad(),unLibro.darCantidad(),unLibro.darFecha().darFechaCompleta()});
         } catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(this, "Existe un error", "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(this, "Error en la imagen", "Error", JOptionPane.ERROR_MESSAGE);
         }
 //        libreria.agregarLibro(unLibro);
     }//GEN-LAST:event_btnGuardarLibroActionPerformed
 
     private void btnImagenLibroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImagenLibroActionPerformed
-        abrirImagen();
+        Imagen i = new Imagen();
+
+        if (seleccionado.showDialog(null, "Abrir Imagen") == JFileChooser.APPROVE_OPTION) {
+            archivo = seleccionado.getSelectedFile();
+            if (archivo.canRead()) {
+                if (archivo.getName().endsWith("jpg") || archivo.getName().endsWith("png") || archivo.getName().endsWith("gif")) {
+                    bytesImg = i.cargarImagen(archivo.getAbsolutePath());
+                    ImageIcon icono = new ImageIcon(bytesImg);
+                    Image imagen = icono.getImage().getScaledInstance(jLabel2.getWidth(), jLabel2.getHeight(), Image.SCALE_SMOOTH);
+                    icono = new ImageIcon(imagen);
+                    jLabel2.setIcon(icono);
+                    Path origen = Paths.get(archivo.getAbsolutePath());
+                    Path destino = Paths.get("C:\\Users\\Mao\\Documents\\NetBeansProjects\\Libreria\\src\\img\\" + archivo.getName());
+                    System.out.println("" + destino.toString());
+                    try {
+                        Files.copy(origen, destino, StandardCopyOption.REPLACE_EXISTING);
+                    } catch (IOException ex) {
+                        System.out.println(ex.getMessage());
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "Por favor seleccione un archivo de texto o de imagen.");
+                }
+            }
+
+        }
     }//GEN-LAST:event_btnImagenLibroActionPerformed
 
     private void btnCancelarLibroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarLibroActionPerformed
         dispose();
     }//GEN-LAST:event_btnCancelarLibroActionPerformed
-    public void abrirImagen() {
-        try {
-            if (seleccionado.showDialog(null, "Abrir Imagen") == JFileChooser.APPROVE_OPTION) {
-                archivo = seleccionado.getSelectedFile();
-                Path origen = Paths.get(archivo.getAbsolutePath());
-                Path destino = Paths.get("D:\\");
-                Files.copy(origen, destino, StandardCopyOption.REPLACE_EXISTING);
-//            if(archivo.getName().endsWith("jpg")||archivo.getName().endsWith("png")||archivo.getName().endsWith("gif")){
-////                String respuesta = gestion.GuardarAImagen(archivo, bytesImg);
-////                if(respuesta!=null){
-////                    JOptionPane.showMessageDialog(null, respuesta);
-////                }else{
-////                    JOptionPane.showMessageDialog(null, "Error al guardar imagen.");
-////                }
-//                Path origen = Paths.get(archivo.getAbsolutePath());
-//                Path destino = Paths.get("D:\\");
-//                Files.copy(origen,destino,StandardCopyOption.REPLACE_EXISTING);
-//            }else{
-//                JOptionPane.showMessageDialog(null, "La imagen se debe guardar en formato de imagen.");
-//            }
-            }
-        } catch (IOException ie) {
-        }
-    }
+
     /**
      * @param args the command line arguments
      */
@@ -294,6 +321,7 @@ public class InterfazAgregarLibro extends javax.swing.JFrame {
     private com.toedter.calendar.JDateChooser jDateChooser1;
     private javax.swing.JFileChooser jFileChooser1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JComboBox jcAutorLibro;
     private javax.swing.JComboBox jcEditorialLibro;
     private javax.swing.JPanel jpAgregarLibro;

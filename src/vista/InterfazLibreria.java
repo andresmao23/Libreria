@@ -5,28 +5,45 @@
  */
 package vista;
 
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.RowFilter;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import modelo.Autor;
+import modelo.Cliente;
 import modelo.Editorial;
+import modelo.Fecha;
 import modelo.Libreria;
+import modelo.Libro;
+import modelo.Venta;
 
 /**
  *
  * @author Mao
  */
-public class InterfazLibreria extends javax.swing.JFrame{
-    
+public class InterfazLibreria extends javax.swing.JFrame {
+
     private TableRowSorter tr; //creamos el filtro
 
     private Libreria libreria;
-    DefaultTableModel model, modelEditorial;
+    DefaultTableModel model, modelEditorial, modelLibro, modelCompra;
 
     /**
      * Creates new form InterfazLibreria
@@ -34,9 +51,11 @@ public class InterfazLibreria extends javax.swing.JFrame{
     public InterfazLibreria() {
         libreria = new Libreria();
         initComponents();
-        
+
         model = (DefaultTableModel) jtDatosAutor.getModel();
         modelEditorial = (DefaultTableModel) jtDatosEditorial.getModel();
+        modelLibro = (DefaultTableModel) jtDatosLibro.getModel();
+        modelCompra = (DefaultTableModel) jtDetalleCopra.getModel();
         setLocationRelativeTo(null);
     }
 
@@ -70,16 +89,20 @@ public class InterfazLibreria extends javax.swing.JFrame{
     public ArrayList<Editorial> darListaEditorial() {
         return libreria.darListaEditorial();
     }
-    
-    public void agregarEditorial(Editorial editorial){
+
+    public void agregarEditorial(Editorial editorial) {
         libreria.agregarEditorial(editorial);
     }
-    
+
+    public Editorial darEditorial(int indice) {
+        return libreria.buscarEditorial(indice);
+    }
+
     void modificarEditorial(int indice, Editorial editorial) {
         libreria.modificarEditorial(indice, editorial);
     }
-    
-    public void eliminarEditorial(int indice){
+
+    public void eliminarEditorial(int indice) {
         libreria.eliminarEditorial(indice);
     }
 
@@ -91,12 +114,36 @@ public class InterfazLibreria extends javax.swing.JFrame{
         libreria.modificarAutor(i, unAutor);
     }
 
+    public Autor darAutor(int indice) {
+        return libreria.buscarAutor(indice);
+    }
+
     public void agregarAutor(Autor autor) {
         libreria.agregarAutor(autor);
     }
-    
-    public void eliminarAutor(int indice){
+
+    public void eliminarAutor(int indice) {
         libreria.eliminarAutor(indice);
+    }
+
+    public void agregarLibro(Libro unLibro) {
+        libreria.agregarLibro(unLibro);
+    }
+
+    public ArrayList<Libro> darListaLibro() {
+        return libreria.darListaLibro();
+    }
+
+    public void modificarLibro(int indice, Libro unLibro) {
+        libreria.modificarLibro(indice, unLibro);
+    }
+
+    public void eliminarLibro(int indice) {
+//       libreria.eliminarLibro(null)
+    }
+
+    public void agregarVenta(Venta unaVenta) {
+        libreria.agregarVenta(unaVenta);
     }
 
 //    public void mostrarTablaAutores() {
@@ -123,7 +170,6 @@ public class InterfazLibreria extends javax.swing.JFrame{
 ////        jtDatosAutor.setModel(modelo);
 ////        System.out.println("Tamaño de la lista: " + listaAutor.size());
 //    }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -145,10 +191,7 @@ public class InterfazLibreria extends javax.swing.JFrame{
         pnlDetalleCompra = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jtDetalleCopra = new javax.swing.JTable();
-        btnCancelarCompra = new javax.swing.JButton();
-        lblTotal = new javax.swing.JLabel();
-        txtTotal = new javax.swing.JTextField();
-        jpCliente = new javax.swing.JPanel();
+        btnSalir = new javax.swing.JButton();
         jpEditorial = new javax.swing.JPanel();
         pnlDatosEditorial = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
@@ -181,9 +224,17 @@ public class InterfazLibreria extends javax.swing.JFrame{
 
             },
             new String [] {
-
+                "Nombre del libro", "Nombre del Autor", "Editorial", "Precio", "Cantidad", "Fecha de publicación"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, true, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(jtDatosLibro);
 
         btnAgregarLibro.setText("Agregar Libro");
@@ -203,6 +254,11 @@ public class InterfazLibreria extends javax.swing.JFrame{
         btnEliminarLibro.setText("Eliminar Libro");
 
         btnComprarLibro.setText("Comprar Libro");
+        btnComprarLibro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnComprarLibroActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout pnlListaLibrosLayout = new javax.swing.GroupLayout(pnlListaLibros);
         pnlListaLibros.setLayout(pnlListaLibrosLayout);
@@ -243,18 +299,26 @@ public class InterfazLibreria extends javax.swing.JFrame{
 
             },
             new String [] {
-
+                "Nombre del libro", "Datos del cliente", "Cantidad", "Fecha de compra"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jtDetalleCopra.setEnabled(false);
         jScrollPane2.setViewportView(jtDetalleCopra);
 
-        btnCancelarCompra.setText("Cancelar");
-
-        lblTotal.setText("Total:");
-
-        txtTotal.setEditable(false);
-        txtTotal.setText("$0");
+        btnSalir.setText("Salir");
+        btnSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalirActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout pnlDetalleCompraLayout = new javax.swing.GroupLayout(pnlDetalleCompra);
         pnlDetalleCompra.setLayout(pnlDetalleCompraLayout);
@@ -263,30 +327,20 @@ public class InterfazLibreria extends javax.swing.JFrame{
             .addGroup(pnlDetalleCompraLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(pnlDetalleCompraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 719, Short.MAX_VALUE)
                     .addGroup(pnlDetalleCompraLayout.createSequentialGroup()
-                        .addComponent(jScrollPane2)
-                        .addContainerGap())
-                    .addGroup(pnlDetalleCompraLayout.createSequentialGroup()
-                        .addGap(80, 80, 80)
-                        .addComponent(btnCancelarCompra, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(lblTotal)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(84, 84, 84))))
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
         );
         pnlDetalleCompraLayout.setVerticalGroup(
             pnlDetalleCompraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlDetalleCompraLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(pnlDetalleCompraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pnlDetalleCompraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(lblTotal)
-                        .addComponent(txtTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(btnCancelarCompra))
-                .addContainerGap(30, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
+                .addComponent(btnSalir)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout jpLibroLayout = new javax.swing.GroupLayout(jpLibro);
@@ -311,19 +365,6 @@ public class InterfazLibreria extends javax.swing.JFrame{
         );
 
         jTabbedPanen.addTab("Libros", jpLibro);
-
-        javax.swing.GroupLayout jpClienteLayout = new javax.swing.GroupLayout(jpCliente);
-        jpCliente.setLayout(jpClienteLayout);
-        jpClienteLayout.setHorizontalGroup(
-            jpClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 771, Short.MAX_VALUE)
-        );
-        jpClienteLayout.setVerticalGroup(
-            jpClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 520, Short.MAX_VALUE)
-        );
-
-        jTabbedPanen.addTab("Clientes", jpCliente);
 
         pnlDatosEditorial.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos de la editorial"));
 
@@ -621,16 +662,16 @@ public class InterfazLibreria extends javax.swing.JFrame{
 
     private void btnEditarAutorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarAutorActionPerformed
         ArrayList<Autor> lista = libreria.darListaAutor();
-        if(jtDatosAutor.getSelectedRow()==-1){
+        if (jtDatosAutor.getSelectedRow() == -1) {
             JOptionPane.showMessageDialog(this, "Debe seleccionar un elemento de la lista", "Seleccionar elemento", JOptionPane.ERROR_MESSAGE);
-        }else{
+        } else {
             Autor a = (Autor) lista.get(jtDatosAutor.getSelectedRow());
             InterfazEditarAutor ed = new InterfazEditarAutor(this);
             ed.datosAutor(jtDatosAutor.getSelectedRow(), a);
             ed.setEnabled(true);
             ed.setLocationRelativeTo(this);
             ed.setVisible(true);
-           }
+        }
     }//GEN-LAST:event_btnEditarAutorActionPerformed
 
     private void btnAgregarEditorialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarEditorialActionPerformed
@@ -642,9 +683,9 @@ public class InterfazLibreria extends javax.swing.JFrame{
 
     private void btnEditarEditorialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarEditorialActionPerformed
         ArrayList<Editorial> lista = libreria.darListaEditorial();
-        if(jtDatosEditorial.getSelectedRow()==-1){
+        if (jtDatosEditorial.getSelectedRow() == -1) {
             JOptionPane.showMessageDialog(this, "Debe seleccionar un elemento de la lista", "Seleccionar elemento", JOptionPane.ERROR_MESSAGE);
-        }else{
+        } else {
             Editorial e = (Editorial) lista.get(jtDatosEditorial.getSelectedRow());
             InterfazEditarEditorial ed = new InterfazEditarEditorial(this);
             ed.datosEditorial(jtDatosEditorial.getSelectedRow(), e);
@@ -655,9 +696,9 @@ public class InterfazLibreria extends javax.swing.JFrame{
     }//GEN-LAST:event_btnEditarEditorialActionPerformed
 
     private void btnEliminarEditorialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarEditorialActionPerformed
-        if(jtDatosEditorial.getSelectedRow()==-1){
+        if (jtDatosEditorial.getSelectedRow() == -1) {
             JOptionPane.showMessageDialog(this, "Debe seleccionar un elemento de la lista", "Eliminar elemento", JOptionPane.ERROR_MESSAGE);
-        }else{
+        } else {
             int indice = jtDatosEditorial.getSelectedRow();
             eliminarEditorial(indice);
             modelEditorial.removeRow(indice);
@@ -666,9 +707,9 @@ public class InterfazLibreria extends javax.swing.JFrame{
     }//GEN-LAST:event_btnEliminarEditorialActionPerformed
 
     private void btnEliminarAutorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarAutorActionPerformed
-        if(jtDatosAutor.getSelectedRow()==-1){
+        if (jtDatosAutor.getSelectedRow() == -1) {
             JOptionPane.showMessageDialog(this, "Debe seleccionar un elemento de la lista", "Eliminar elemento", JOptionPane.ERROR_MESSAGE);
-        }else{
+        } else {
             int indice = jtDatosAutor.getSelectedRow();
             eliminarAutor(indice);
             model.removeRow(indice);
@@ -679,16 +720,16 @@ public class InterfazLibreria extends javax.swing.JFrame{
 //    public void filtro() {
 //       tr.setRowFilter(RowFilter.regexFilter(txtBuscarAutor.getText(), 0));//el 0 es el numero de columna a filtrar
 //    }
-    
+
     private void txtBuscarAutorKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarAutorKeyTyped
         txtBuscarAutor.addKeyListener(new KeyAdapter() {
-        public void keyReleased(final KeyEvent e) {
-            String cadena = (txtBuscarAutor.getText()).trim();
-            txtBuscarAutor.setText(cadena);
-            repaint();
-            tr.setRowFilter(RowFilter.regexFilter(txtBuscarAutor.getText(), 0));//Esta linea es practicamente el FILTRO, el 0 es el numero de columna a filtrar
-            //filtro();
-        }
+            public void keyReleased(final KeyEvent e) {
+                String cadena = (txtBuscarAutor.getText()).trim();
+                txtBuscarAutor.setText(cadena);
+                repaint();
+                tr.setRowFilter(RowFilter.regexFilter(txtBuscarAutor.getText(), 0));//Esta linea es practicamente el FILTRO, el 0 es el numero de columna a filtrar
+                //filtro();
+            }
         });
         tr = new TableRowSorter(jtDatosAutor.getModel());
         jtDatosAutor.setRowSorter(tr);
@@ -696,17 +737,177 @@ public class InterfazLibreria extends javax.swing.JFrame{
 
     private void txtBuscarEditorialKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarEditorialKeyTyped
         txtBuscarEditorial.addKeyListener(new KeyAdapter() {
-        public void keyReleased(final KeyEvent e) {
-            String cadena = (txtBuscarEditorial.getText()).trim();
-            txtBuscarEditorial.setText(cadena);
-            repaint();
-            tr.setRowFilter(RowFilter.regexFilter(txtBuscarEditorial.getText(), 0));//Esta linea es practicamente el FILTRO, el 0 es el numero de columna a filtrar
-            //filtro();
-        }
+            public void keyReleased(final KeyEvent e) {
+                String cadena = (txtBuscarEditorial.getText()).trim();
+                txtBuscarEditorial.setText(cadena);
+                repaint();
+                tr.setRowFilter(RowFilter.regexFilter(txtBuscarEditorial.getText(), 0));//Esta linea es practicamente el FILTRO, el 0 es el numero de columna a filtrar
+                //filtro();
+            }
         });
         tr = new TableRowSorter(jtDatosEditorial.getModel());
         jtDatosEditorial.setRowSorter(tr);
     }//GEN-LAST:event_txtBuscarEditorialKeyTyped
+
+    private void btnComprarLibroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnComprarLibroActionPerformed
+
+        if (jtDatosLibro.getSelectedRow() != -1) {
+            int indice = jtDatosLibro.getSelectedRow();
+            Libro unLibro = libreria.buscarLibro(indice);
+            JDialog win = new JDialog();
+            win.setLayout(new GridBagLayout());
+            GridBagConstraints gbc = new GridBagConstraints();
+            final JLabel lblNombre = new JLabel("Nombre del Cliente:");
+            final JLabel lblApellido = new JLabel("Apellido(s):");
+            final JLabel lblIdentificacion = new JLabel("Identificación");
+            final JLabel lblCantidad = new JLabel("Cantidad:");
+            final JLabel lblDatos = new JLabel("Nombre del libro: " + unLibro.darNombre());
+
+            final JTextField txtNombre = new JTextField(20);
+            final JTextField txtApellido = new JTextField(20);
+            final JTextField txtIdentificacion = new JTextField(20);
+            final JTextField txtCantidad = new JTextField(20);
+
+            final JButton btnAceptar = new JButton("Aceptar");
+            final JButton btnCancelar = new JButton("Cancelar");
+
+            final JPanel panelSuperior = new JPanel();
+            panelSuperior.setLayout(new GridBagLayout());
+            gbc = new GridBagConstraints();
+            gbc.gridx = 0;
+            gbc.gridy = 0;
+            gbc.insets = new Insets(5, 5, 5, 5);
+            panelSuperior.add(lblDatos, gbc);
+
+            final JPanel panelCentro = new JPanel();
+            panelCentro.setLayout(new GridBagLayout());
+            gbc.gridx = 0;
+            gbc.gridy = 0;
+            gbc.insets = new Insets(5, 5, 5, 5);
+            panelCentro.add(lblNombre, gbc);
+
+            gbc = new GridBagConstraints();
+            gbc.gridx = 0;
+            gbc.gridy = 1;
+            gbc.insets = new Insets(5, 5, 5, 5);
+            panelCentro.add(lblApellido, gbc);
+
+            gbc = new GridBagConstraints();
+            gbc.gridx = 0;
+            gbc.gridy = 2;
+            gbc.insets = new Insets(5, 5, 5, 5);
+            panelCentro.add(lblIdentificacion, gbc);
+
+            gbc = new GridBagConstraints();
+            gbc.gridx = 0;
+            gbc.gridy = 3;
+            gbc.insets = new Insets(5, 5, 5, 5);
+            panelCentro.add(lblCantidad, gbc);
+
+            gbc = new GridBagConstraints();
+            gbc.gridx = 1;
+            gbc.gridy = 0;
+            gbc.insets = new Insets(5, 5, 5, 5);
+            panelCentro.add(txtNombre, gbc);
+
+            gbc = new GridBagConstraints();
+            gbc.gridx = 1;
+            gbc.gridy = 1;
+            gbc.insets = new Insets(5, 5, 5, 5);
+            panelCentro.add(txtApellido, gbc);
+
+            gbc = new GridBagConstraints();
+            gbc.gridx = 1;
+            gbc.gridy = 2;
+            gbc.insets = new Insets(5, 5, 5, 5);
+            panelCentro.add(txtIdentificacion, gbc);
+
+            gbc = new GridBagConstraints();
+            gbc.gridx = 1;
+            gbc.gridy = 3;
+            gbc.insets = new Insets(5, 5, 5, 5);
+            panelCentro.add(txtCantidad, gbc);
+
+            final JPanel panelInferior = new JPanel();
+            panelInferior.setLayout(new GridBagLayout());
+            gbc = new GridBagConstraints();
+            gbc.gridx = 0;
+            gbc.gridy = 0;
+            gbc.insets = new Insets(5, 5, 5, 5);
+            panelInferior.add(btnAceptar, gbc);
+
+            gbc = new GridBagConstraints();
+            gbc.gridx = 1;
+            gbc.gridy = 0;
+            gbc.insets = new Insets(5, 5, 5, 5);
+            panelInferior.add(btnCancelar, gbc);
+
+            gbc = new GridBagConstraints();
+            gbc.gridx = 0;
+            gbc.gridy = 0;
+            gbc.insets = new Insets(5, 5, 5, 5);
+            win.add(panelSuperior, gbc);
+            gbc = new GridBagConstraints();
+            gbc.gridx = 0;
+            gbc.gridy = 1;
+            gbc.insets = new Insets(5, 5, 5, 5);
+            win.add(panelCentro, gbc);
+            gbc = new GridBagConstraints();
+            gbc.gridx = 0;
+            gbc.gridy = 2;
+            gbc.insets = new Insets(5, 5, 5, 5);
+            win.add(panelInferior, gbc);
+
+            btnAceptar.addActionListener(new ActionListener() {
+
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    try {
+
+                        Fecha unaFecha = new Fecha();
+                        unaFecha.fechaHoy();
+                        int cantidad = Integer.parseInt(txtCantidad.getText());
+                        Cliente unCliente = new Cliente(txtNombre.getText(), txtApellido.getText(), txtIdentificacion.getText());
+                        Venta unaVenta = new Venta(unLibro, unaFecha, unCliente, cantidad);
+                        if (unaVenta.realizarVenta() || cantidad < unLibro.darCantidad()) {
+                            JOptionPane.showMessageDialog(win, "La venta se realizó con éxito", "Libreria", JOptionPane.INFORMATION_MESSAGE);
+                            agregarVenta(unaVenta);
+                            modificarLibro(indice, unaVenta.cambiarLibro());
+                            modelLibro.setValueAt(unaVenta.cambiarLibro().darCantidad(), indice, 4);
+                            modelCompra.addRow(new Object[]{unaVenta.cambiarLibro().darNombre(), unaVenta.darCliente().darNombre() + " " + unaVenta.darCliente().darApellido(), unaVenta.darCantidad(), unaVenta.darFecha().toString()});
+                            win.dispose();
+                        } else {
+                            JOptionPane.showMessageDialog(win, "No se pudo reaizar la venta", "Libreria", JOptionPane.ERROR_MESSAGE);
+                        }
+                    } catch (NumberFormatException en) {
+                        JOptionPane.showMessageDialog(win, "Error digite un número valido", "Libreria", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+            });
+
+            btnCancelar.addActionListener(new ActionListener() {
+
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    win.dispose();
+                }
+            });
+
+            win.setLocationRelativeTo(this);
+            win.setModal(true);
+            win.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            win.pack();
+            win.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(this, "Seleccione un libro", " Libreria", JOptionPane.ERROR_MESSAGE);
+        }
+
+
+    }//GEN-LAST:event_btnComprarLibroActionPerformed
+
+    private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_btnSalirActionPerformed
 
     /**
      * @param args the command line arguments
@@ -742,7 +943,6 @@ public class InterfazLibreria extends javax.swing.JFrame{
     private javax.swing.JButton btnAgregarAutor;
     private javax.swing.JButton btnAgregarEditorial;
     private javax.swing.JButton btnAgregarLibro;
-    private javax.swing.JButton btnCancelarCompra;
     private javax.swing.JButton btnComprarLibro;
     private javax.swing.JButton btnEditarAutor;
     private javax.swing.JButton btnEditarEditorial;
@@ -750,6 +950,7 @@ public class InterfazLibreria extends javax.swing.JFrame{
     private javax.swing.JButton btnEliminarAutor;
     private javax.swing.JButton btnEliminarEditorial;
     private javax.swing.JButton btnEliminarLibro;
+    private javax.swing.JButton btnSalir;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
@@ -758,7 +959,6 @@ public class InterfazLibreria extends javax.swing.JFrame{
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTabbedPane jTabbedPanen;
     private javax.swing.JPanel jpAutor;
-    private javax.swing.JPanel jpCliente;
     private javax.swing.JPanel jpEditorial;
     private javax.swing.JPanel jpLibro;
     public javax.swing.JTable jtDatosAutor;
@@ -767,17 +967,12 @@ public class InterfazLibreria extends javax.swing.JFrame{
     private javax.swing.JTable jtDetalleCopra;
     private javax.swing.JLabel lblBuscarAutor;
     private javax.swing.JLabel lblBuscarEditorial;
-    private javax.swing.JLabel lblTotal;
     private javax.swing.JPanel pnlDatosEditorial;
     private javax.swing.JPanel pnlDetalleCompra;
     private javax.swing.JPanel pnlListaAutores;
     private javax.swing.JPanel pnlListaLibros;
     private javax.swing.JTextField txtBuscarAutor;
     private javax.swing.JTextField txtBuscarEditorial;
-    private javax.swing.JTextField txtTotal;
     // End of variables declaration//GEN-END:variables
-
-   
-    
 
 }

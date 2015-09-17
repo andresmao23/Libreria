@@ -112,20 +112,20 @@ public class Libreria {
         return venta.indexOf(unaVenta);
     }
     
-    public int buscarEditorial(Editorial unaEditorial){
-        return editorial.indexOf(unaEditorial);
+    public Editorial buscarEditorial(int indice){
+        return editorial.get(indice);
     }
     
-    public int buscarLibro(Libro unLibro){
-        return libro.indexOf(unLibro);
+    public Libro buscarLibro(int indice){
+        return libro.get(indice);
     }
     
     public int buscarCliente(Cliente unCliente){
         return cliente.indexOf(unCliente);
     }
     
-    public int buscarAutor(Autor unAutor){
-        return autor.indexOf(unAutor);
+    public Autor buscarAutor(int  indice){
+        return autor.get(indice);
     }
     
     public boolean modificarVenta(int i,Venta unaVenta){
@@ -145,8 +145,8 @@ public class Libreria {
     }
     
     public boolean modificarLibro(int i,Libro unLibro){
-        if(i>0||i<libro.size()){
-            libro.add(i, unLibro);
+        if(i>=0||i<libro.size()){
+            libro.set(i, unLibro);
             return true;
         }
         return false;
