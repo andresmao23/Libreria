@@ -24,6 +24,8 @@ public class Libro {
     private String nombre;
 
     private String idioma;
+    
+    private float precio;
 
     private int cantidad;
 
@@ -32,9 +34,10 @@ public class Libro {
     public Libro() {
     }
 
-    public Libro(String unNombre, String unIdioma, int unaCantidad, Autor unAutor, Editorial unaEditorial, Imagen unaImagen, Fecha FPublicacion) {
+    public Libro(String unNombre, String unIdioma, float unPrecio, int unaCantidad, Autor unAutor, Editorial unaEditorial, Imagen unaImagen, Fecha FPublicacion) {
         nombre = unNombre;
         idioma = unIdioma;
+        precio = unPrecio;
         cantidad = unaCantidad;
         autor = unAutor;
         editorial = unaEditorial;
@@ -69,6 +72,10 @@ public class Libro {
     public String darIdioma() {
         return idioma;
     }
+    
+    public float darPrecio(){
+        return precio;
+    }
 
     public int darCantidad() {
         return cantidad;
@@ -76,6 +83,10 @@ public class Libro {
 
     public void cambiarNombre(String unNombre) {
         nombre = unNombre;
+    }
+    
+    public void cambiarPrecio(float unPrecio){
+        precio = unPrecio;
     }
 
     public void cambiarCantidad(int unaCantidad) {

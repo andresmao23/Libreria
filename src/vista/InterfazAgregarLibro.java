@@ -37,6 +37,8 @@ public class InterfazAgregarLibro extends javax.swing.JFrame {
     private String nombre;
 
     private String idioma;
+    
+    private float precio;
 
     private String fecha;
 
@@ -105,6 +107,8 @@ public class InterfazAgregarLibro extends javax.swing.JFrame {
         btnCancelarLibro = new javax.swing.JButton();
         jDateChooser1 = new com.toedter.calendar.JDateChooser();
         jLabel2 = new javax.swing.JLabel();
+        lblPrecioLibro = new javax.swing.JLabel();
+        txtPrecioLibro = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Agregar Libro");
@@ -118,6 +122,12 @@ public class InterfazAgregarLibro extends javax.swing.JFrame {
         lblIdiomaLibro.setText("Idioma del libro:");
 
         lblCantidadLibro.setText("Cantidad:");
+
+        txtCantidadLibro.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtCantidadLibroKeyTyped(evt);
+            }
+        });
 
         lblAutorLibro.setText("Autor:");
 
@@ -148,6 +158,14 @@ public class InterfazAgregarLibro extends javax.swing.JFrame {
             }
         });
 
+        lblPrecioLibro.setText("Precio:");
+
+        txtPrecioLibro.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtPrecioLibroKeyTyped(evt);
+            }
+        });
+
         javax.swing.GroupLayout jpAgregarLibroLayout = new javax.swing.GroupLayout(jpAgregarLibro);
         jpAgregarLibro.setLayout(jpAgregarLibroLayout);
         jpAgregarLibroLayout.setHorizontalGroup(
@@ -158,7 +176,7 @@ public class InterfazAgregarLibro extends javax.swing.JFrame {
                 .addContainerGap(499, Short.MAX_VALUE))
             .addGroup(jpAgregarLibroLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jpAgregarLibroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jpAgregarLibroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jpAgregarLibroLayout.createSequentialGroup()
                         .addGroup(jpAgregarLibroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -187,8 +205,12 @@ public class InterfazAgregarLibro extends javax.swing.JFrame {
                                 .addComponent(txtNombreLibro, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpAgregarLibroLayout.createSequentialGroup()
                                 .addGap(18, 18, 18)
-                                .addComponent(txtIdiomaLibro, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(txtIdiomaLibro, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(jpAgregarLibroLayout.createSequentialGroup()
+                        .addComponent(lblPrecioLibro, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtPrecioLibro)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 64, Short.MAX_VALUE)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(74, 74, 74))
         );
@@ -196,7 +218,10 @@ public class InterfazAgregarLibro extends javax.swing.JFrame {
             jpAgregarLibroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jpAgregarLibroLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jpAgregarLibroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jpAgregarLibroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jpAgregarLibroLayout.createSequentialGroup()
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jpAgregarLibroLayout.createSequentialGroup()
                         .addGroup(jpAgregarLibroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lblNombreLibro)
@@ -209,24 +234,27 @@ public class InterfazAgregarLibro extends javax.swing.JFrame {
                         .addGroup(jpAgregarLibroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lblCantidadLibro)
                             .addComponent(txtCantidadLibro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jpAgregarLibroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblPrecioLibro)
+                            .addComponent(txtPrecioLibro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
                         .addGroup(jpAgregarLibroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblAutorLibro)
                             .addComponent(jcAutorLibro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(21, 21, 21)
                         .addGroup(jpAgregarLibroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lblEditorialLibro)
-                            .addComponent(jcEditorialLibro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(18, 18, 18)
-                .addGroup(jpAgregarLibroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblImagenLibro)
-                    .addComponent(btnImagenLibro))
-                .addGap(18, 18, 18)
-                .addGroup(jpAgregarLibroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 69, Short.MAX_VALUE)
+                            .addComponent(jcEditorialLibro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jpAgregarLibroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblImagenLibro)
+                            .addComponent(btnImagenLibro))
+                        .addGap(18, 18, 18)
+                        .addGroup(jpAgregarLibroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(36, 36, 36)))
                 .addGroup(jpAgregarLibroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnGuardarLibro)
                     .addComponent(btnCancelarLibro))
@@ -254,10 +282,11 @@ public class InterfazAgregarLibro extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnGuardarLibroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarLibroActionPerformed
-
+        
         try {
             nombre = txtNombreLibro.getText();
             idioma = txtIdiomaLibro.getText();
+            precio = Float.parseFloat(txtPrecioLibro.getText());
             cantidad = Integer.parseInt(txtCantidadLibro.getText());
             int indiceAutor = jcAutorLibro.getSelectedIndex();
             int indiceEditorial = jcEditorialLibro.getSelectedIndex();
@@ -267,11 +296,15 @@ public class InterfazAgregarLibro extends javax.swing.JFrame {
             Imagen unaImagen = new Imagen(archivo.getName());
             Autor unAutor = interfazLibreria.darAutor(indiceAutor);
             Editorial unaEditorial = interfazLibreria.darEditorial(indiceEditorial);
-            Libro unLibro = new Libro(nombre, idioma, cantidad, unAutor, unaEditorial, unaImagen, unaFecha);
+            Libro unLibro = new Libro(nombre, idioma, precio, cantidad, unAutor, unaEditorial, unaImagen, unaFecha);
             interfazLibreria.agregarLibro(unLibro);
-            interfazLibreria.modelLibro.addRow(new Object[]{unLibro.darNombre(),unLibro.darAutor().darNombre(),unLibro.darEditorial().darNombre(),unLibro.darCantidad(),unLibro.darCantidad(),unLibro.darFecha().darFechaCompleta()});
+            interfazLibreria.modelLibro.addRow(new Object[]{unLibro.darNombre(),unLibro.darAutor().darNombre(),unLibro.darEditorial().darNombre(),unLibro.darPrecio(),unLibro.darCantidad(),unLibro.darFecha().darFechaCompleta()});
+            interfazLibreria.btnComprarLibro.setEnabled(true);
+            interfazLibreria.btnEditarLibro.setEnabled(true);
+            interfazLibreria.btnEliminarLibro.setEnabled(true);
+            JOptionPane.showMessageDialog(this, "Libro agregado", "Agregar libro", JOptionPane.INFORMATION_MESSAGE);
         } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(this, "Existe un error", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Existe un error en la cantidad y/o el precio", "Error", JOptionPane.ERROR_MESSAGE);
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(this, "Error en la imagen", "Error", JOptionPane.ERROR_MESSAGE);
         }
@@ -310,6 +343,18 @@ public class InterfazAgregarLibro extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_btnCancelarLibroActionPerformed
 
+    private void txtCantidadLibroKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCantidadLibroKeyTyped
+        char c = evt.getKeyChar();
+        if (c<'0' || c>'9') 
+            evt.consume();
+    }//GEN-LAST:event_txtCantidadLibroKeyTyped
+
+    private void txtPrecioLibroKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPrecioLibroKeyTyped
+        char c = evt.getKeyChar();
+        if (c<'0' || c>'9') 
+            evt.consume();
+    }//GEN-LAST:event_txtPrecioLibroKeyTyped
+
     /**
      * @param args the command line arguments
      */
@@ -331,8 +376,10 @@ public class InterfazAgregarLibro extends javax.swing.JFrame {
     private javax.swing.JLabel lblIdiomaLibro;
     private javax.swing.JLabel lblImagenLibro;
     private javax.swing.JLabel lblNombreLibro;
+    private javax.swing.JLabel lblPrecioLibro;
     private javax.swing.JTextField txtCantidadLibro;
     private javax.swing.JTextField txtIdiomaLibro;
     private javax.swing.JTextField txtNombreLibro;
+    private javax.swing.JTextField txtPrecioLibro;
     // End of variables declaration//GEN-END:variables
 }

@@ -70,6 +70,12 @@ public class InterfazEditarAutor extends javax.swing.JDialog {
 
         lblEditarIdAutor.setText("Identificacion:");
 
+        txtEditarIdAutor.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtEditarIdAutorKeyTyped(evt);
+            }
+        });
+
         lblEditarNacionalidadAutor.setText("Nacionalidad:");
 
         lblEditarFechadAutor.setText("Nacionalidad:");
@@ -150,36 +156,48 @@ public class InterfazEditarAutor extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnGuardarNuevoAutorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarNuevoAutorActionPerformed
-        Autor autor = new Autor();
-        nombre = txtEditarNombreAutor.getText();
-        apellido = txtEditarApellidoAutor.getText();
-        identificacion = txtEditarIdAutor.getText();
-        nacionalidad = txtEditarNacionalidadAutor.getText();
         
-        autor.cambiarNombre(nombre);
-        autor.cambiarApellido(apellido);
-        autor.cambiarIdentificacion(identificacion);
-        autor.cambiarNacionalidad(nacionalidad);
-        SimpleDateFormat formatoFecha = new SimpleDateFormat("dd-MM-yyyy");
-        fecha = formatoFecha.format(jDateChooser1.getDate());
-        //fecha = jDateChooser1.getDate();
-        Fecha f = new Fecha();
-        f.cambiarFecha(fecha);
-        autor.cambiarFechaNacimiento(f);
+        if (txtEditarNombreAutor.getText().equalsIgnoreCase("") || txtEditarApellidoAutor.getText().equalsIgnoreCase("") || txtEditarIdAutor.getText().equalsIgnoreCase("") || txtEditarNacionalidadAutor.getText().equalsIgnoreCase("") || jDateChooser1.getDate()==null) {
+            JOptionPane.showMessageDialog(this, "No se aceptan campos nulos", "Autor", JOptionPane.ERROR_MESSAGE);
+        }else{
+        
+            Autor autor = new Autor();
+            nombre = txtEditarNombreAutor.getText();
+            apellido = txtEditarApellidoAutor.getText();
+            identificacion = txtEditarIdAutor.getText();
+            nacionalidad = txtEditarNacionalidadAutor.getText();
 
-        interfazLibreria.modificarAutor(indice,autor);
-        interfazLibreria.model.setValueAt(autor.darNombre(), interfazLibreria.jtDatosAutor.getSelectedRow(), 0);
-        interfazLibreria.model.setValueAt(autor.darApellido(), interfazLibreria.jtDatosAutor.getSelectedRow(), 1);
-        interfazLibreria.model.setValueAt(autor.darIdentificacion(), interfazLibreria.jtDatosAutor.getSelectedRow(), 2);
-        interfazLibreria.model.setValueAt(autor.darNacionalidad(), interfazLibreria.jtDatosAutor.getSelectedRow(), 3);
-        interfazLibreria.model.setValueAt(autor.darFecha().darFechaCompleta(), interfazLibreria.jtDatosAutor.getSelectedRow(), 4);
+            autor.cambiarNombre(nombre);
+            autor.cambiarApellido(apellido);
+            autor.cambiarIdentificacion(identificacion);
+            autor.cambiarNacionalidad(nacionalidad);
+            SimpleDateFormat formatoFecha = new SimpleDateFormat("dd-MM-yyyy");
+            fecha = formatoFecha.format(jDateChooser1.getDate());
+            //fecha = jDateChooser1.getDate();
+            Fecha f = new Fecha();
+            f.cambiarFecha(fecha);
+            autor.cambiarFechaNacimiento(f);
 
-        JOptionPane.showMessageDialog(this, "Edición exitosa!!!", "Seleccionar elemento", JOptionPane.INFORMATION_MESSAGE);
+            interfazLibreria.modificarAutor(indice,autor);
+            interfazLibreria.model.setValueAt(autor.darNombre(), interfazLibreria.jtDatosAutor.getSelectedRow(), 0);
+            interfazLibreria.model.setValueAt(autor.darApellido(), interfazLibreria.jtDatosAutor.getSelectedRow(), 1);
+            interfazLibreria.model.setValueAt(autor.darIdentificacion(), interfazLibreria.jtDatosAutor.getSelectedRow(), 2);
+            interfazLibreria.model.setValueAt(autor.darNacionalidad(), interfazLibreria.jtDatosAutor.getSelectedRow(), 3);
+            interfazLibreria.model.setValueAt(autor.darFecha().darFechaCompleta(), interfazLibreria.jtDatosAutor.getSelectedRow(), 4);
+
+            JOptionPane.showMessageDialog(this, "Edición exitosa!!!", "Seleccionar elemento", JOptionPane.INFORMATION_MESSAGE);
+        }
     }//GEN-LAST:event_btnGuardarNuevoAutorActionPerformed
 
     private void btnCancelarNuevoAutorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarNuevoAutorActionPerformed
         dispose();
     }//GEN-LAST:event_btnCancelarNuevoAutorActionPerformed
+
+    private void txtEditarIdAutorKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtEditarIdAutorKeyTyped
+        char c = evt.getKeyChar();
+        if (c<'0' || c>'9') 
+            evt.consume();
+    }//GEN-LAST:event_txtEditarIdAutorKeyTyped
     public void datosAutor(int i,Autor a){
         indice=i;
         txtEditarNombreAutor.setText(a.darNombre());

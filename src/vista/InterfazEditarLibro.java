@@ -35,6 +35,8 @@ public class InterfazEditarLibro extends javax.swing.JFrame {
     private String nombre;
 
     private String idioma;
+    
+    private float precio;
 
     private String fecha;
 
@@ -97,6 +99,8 @@ public class InterfazEditarLibro extends javax.swing.JFrame {
         btnGuardarNuevoLibro = new javax.swing.JButton();
         btnCancelarNuevoLibro = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
+        lblPrecioNuevoLibro = new javax.swing.JLabel();
+        txtPrecioNuevoLibro = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Editar Libro");
@@ -110,6 +114,12 @@ public class InterfazEditarLibro extends javax.swing.JFrame {
         lblIdiomaNuevoLibro.setText("Idioma del libro:");
 
         lblCantidadNuevoLibro.setText("Cantidad:");
+
+        txtCantidadNuevoLibro.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtCantidadNuevoLibroKeyTyped(evt);
+            }
+        });
 
         lblAutorNuevoLibro.setText("Autor:");
 
@@ -140,6 +150,14 @@ public class InterfazEditarLibro extends javax.swing.JFrame {
             }
         });
 
+        lblPrecioNuevoLibro.setText("Precio:");
+
+        txtPrecioNuevoLibro.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtPrecioNuevoLibroKeyTyped(evt);
+            }
+        });
+
         javax.swing.GroupLayout jpEditarLibroLayout = new javax.swing.GroupLayout(jpEditarLibro);
         jpEditarLibro.setLayout(jpEditarLibroLayout);
         jpEditarLibroLayout.setHorizontalGroup(
@@ -152,7 +170,7 @@ public class InterfazEditarLibro extends javax.swing.JFrame {
                         .addComponent(btnGuardarNuevoLibro)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jpEditarLibroLayout.createSequentialGroup()
-                        .addGroup(jpEditarLibroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jpEditarLibroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jpEditarLibroLayout.createSequentialGroup()
                                 .addGroup(jpEditarLibroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(lblFechaNuevo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -181,7 +199,11 @@ public class InterfazEditarLibro extends javax.swing.JFrame {
                                         .addComponent(txtNombreNuevoLibro, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpEditarLibroLayout.createSequentialGroup()
                                         .addGap(18, 18, 18)
-                                        .addComponent(txtIdiomaNuevoLibro, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                        .addComponent(txtIdiomaNuevoLibro, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addGroup(jpEditarLibroLayout.createSequentialGroup()
+                                .addComponent(lblPrecioNuevoLibro, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(txtPrecioNuevoLibro)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 98, Short.MAX_VALUE)
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
@@ -191,6 +213,9 @@ public class InterfazEditarLibro extends javax.swing.JFrame {
             .addGroup(jpEditarLibroLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jpEditarLibroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jpEditarLibroLayout.createSequentialGroup()
+                        .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jpEditarLibroLayout.createSequentialGroup()
                         .addGroup(jpEditarLibroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lblNombreNuevoLibro)
@@ -203,24 +228,27 @@ public class InterfazEditarLibro extends javax.swing.JFrame {
                         .addGroup(jpEditarLibroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lblCantidadNuevoLibro)
                             .addComponent(txtCantidadNuevoLibro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
+                        .addGroup(jpEditarLibroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblPrecioNuevoLibro)
+                            .addComponent(txtPrecioNuevoLibro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jpEditarLibroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblAutorNuevoLibro)
                             .addComponent(jcAutorNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(21, 21, 21)
+                        .addGap(18, 18, 18)
                         .addGroup(jpEditarLibroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lblEditorialNuevoLibro)
-                            .addComponent(jcEditorialNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jpEditarLibroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblImagenNuevoLibro)
-                    .addComponent(btnImagenNuevoLibro))
-                .addGap(18, 18, 18)
-                .addGroup(jpEditarLibroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblFechaNuevo)
-                    .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 75, Short.MAX_VALUE)
+                            .addComponent(jcEditorialNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(15, 15, 15)
+                        .addGroup(jpEditarLibroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblImagenNuevoLibro)
+                            .addComponent(btnImagenNuevoLibro))
+                        .addGap(18, 18, 18)
+                        .addGroup(jpEditarLibroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblFechaNuevo)
+                            .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(37, 37, 37)))
                 .addGroup(jpEditarLibroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnGuardarNuevoLibro)
                     .addComponent(btnCancelarNuevoLibro))
@@ -280,6 +308,7 @@ public class InterfazEditarLibro extends javax.swing.JFrame {
         try {
             nombre = txtNombreNuevoLibro.getText();
             idioma = txtIdiomaNuevoLibro.getText();
+            precio = Float.parseFloat(txtPrecioNuevoLibro.getText());
             cantidad = Integer.parseInt(txtCantidadNuevoLibro.getText());
             int indiceAutor = jcAutorNuevo.getSelectedIndex();
             int indiceEditorial = jcEditorialNuevo.getSelectedIndex();
@@ -291,15 +320,17 @@ public class InterfazEditarLibro extends javax.swing.JFrame {
             Imagen unaImagen = new Imagen(archivo.getName());
             Autor unAutor = interfazLibreria.darAutor(indiceAutor);
             Editorial unaEditorial = interfazLibreria.darEditorial(indiceEditorial);
-            Libro unLibro = new Libro(nombre, idioma, cantidad, unAutor, unaEditorial, unaImagen, unaFecha);
+            Libro unLibro = new Libro(nombre, idioma, precio, cantidad, unAutor, unaEditorial, unaImagen, unaFecha);
             interfazLibreria.modificarLibro(indice, unLibro);
             
             interfazLibreria.modelLibro.setValueAt(unLibro.darNombre(), interfazLibreria.jtDatosLibro.getSelectedRow(), 0);
             interfazLibreria.modelLibro.setValueAt(unLibro.darAutor().darNombre()+" "+unLibro.darAutor().darApellido(), interfazLibreria.jtDatosLibro.getSelectedRow(), 1);
             interfazLibreria.modelLibro.setValueAt(unLibro.darEditorial().darNombre(), interfazLibreria.jtDatosLibro.getSelectedRow(), 2);
-            interfazLibreria.modelLibro.setValueAt(unLibro.darCantidad(), interfazLibreria.jtDatosLibro.getSelectedRow(), 3);
+            interfazLibreria.modelLibro.setValueAt(unLibro.darPrecio(), interfazLibreria.jtDatosLibro.getSelectedRow(), 3);
             interfazLibreria.modelLibro.setValueAt(unLibro.darCantidad(), interfazLibreria.jtDatosLibro.getSelectedRow(), 4);
             interfazLibreria.modelLibro.setValueAt(unLibro.darFecha().darFechaCompleta(), interfazLibreria.jtDatosLibro.getSelectedRow(), 5);
+            
+            JOptionPane.showMessageDialog(this, "Libro Editado", "Agregar libro", JOptionPane.INFORMATION_MESSAGE);
             
         } catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(this, "Existe un error", "Error", JOptionPane.ERROR_MESSAGE);
@@ -314,6 +345,7 @@ public class InterfazEditarLibro extends javax.swing.JFrame {
         indice=i;
         txtNombreNuevoLibro.setText(l.darNombre());
         txtIdiomaNuevoLibro.setText(l.darIdioma());
+        txtPrecioNuevoLibro.setText(String.valueOf(l.darPrecio()));
         txtCantidadNuevoLibro.setText(String.valueOf(l.darCantidad()));
         ImageIcon img = new ImageIcon(getClass().getResource("/img/"+l.darImagen().darArcivo()));
         ImageIcon imagen = new ImageIcon(img.getImage().getScaledInstance(jLabel2.getWidth(), jLabel2.getHeight(), Image.SCALE_SMOOTH));
@@ -332,6 +364,18 @@ public class InterfazEditarLibro extends javax.swing.JFrame {
     private void btnCancelarNuevoLibroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarNuevoLibroActionPerformed
         dispose();
     }//GEN-LAST:event_btnCancelarNuevoLibroActionPerformed
+
+    private void txtCantidadNuevoLibroKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCantidadNuevoLibroKeyTyped
+        char c = evt.getKeyChar();
+        if (c<'0' || c>'9') 
+            evt.consume();
+    }//GEN-LAST:event_txtCantidadNuevoLibroKeyTyped
+
+    private void txtPrecioNuevoLibroKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPrecioNuevoLibroKeyTyped
+        char c = evt.getKeyChar();
+        if (c<'0' || c>'9') 
+            evt.consume();
+    }//GEN-LAST:event_txtPrecioNuevoLibroKeyTyped
 
     /**
      * @param args the command line arguments
@@ -385,8 +429,10 @@ public class InterfazEditarLibro extends javax.swing.JFrame {
     private javax.swing.JLabel lblIdiomaNuevoLibro;
     private javax.swing.JLabel lblImagenNuevoLibro;
     private javax.swing.JLabel lblNombreNuevoLibro;
+    private javax.swing.JLabel lblPrecioNuevoLibro;
     private javax.swing.JTextField txtCantidadNuevoLibro;
     private javax.swing.JTextField txtIdiomaNuevoLibro;
     private javax.swing.JTextField txtNombreNuevoLibro;
+    private javax.swing.JTextField txtPrecioNuevoLibro;
     // End of variables declaration//GEN-END:variables
 }

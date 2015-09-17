@@ -18,6 +18,8 @@ public class Venta {
     private Cliente cliente;
     
     private int cantidad;
+    
+    private float total;
 
     public Venta() {
     }
@@ -36,7 +38,7 @@ public class Venta {
     public void cambiarCantidad(int unaCantidad){
         cantidad = unaCantidad;
     }
-    
+       
     public void cambiarLibro(Libro unLibro) {
         libroCompra = unLibro;
     }
@@ -63,5 +65,9 @@ public class Venta {
     
     public int darCantidad(){
         return cantidad;
+    }
+    
+    public float totalVenta(){
+        return cantidad*libroCompra.darPrecio();
     }
 }

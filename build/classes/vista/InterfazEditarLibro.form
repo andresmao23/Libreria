@@ -65,7 +65,7 @@
                           <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                       </Group>
                       <Group type="102" attributes="0">
-                          <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
                               <Group type="102" alignment="0" attributes="0">
                                   <Group type="103" groupAlignment="1" attributes="0">
                                       <Component id="lblFechaNuevo" alignment="0" min="-2" pref="93" max="-2" attributes="0"/>
@@ -105,6 +105,11 @@
                                       </Group>
                                   </Group>
                               </Group>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Component id="lblPrecioNuevoLibro" min="-2" pref="85" max="-2" attributes="0"/>
+                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                  <Component id="txtPrecioNuevoLibro" max="32767" attributes="0"/>
+                              </Group>
                           </Group>
                           <EmptySpace pref="98" max="32767" attributes="0"/>
                           <Component id="jLabel2" min="-2" pref="150" max="-2" attributes="0"/>
@@ -119,7 +124,11 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" attributes="0">
+                      <Group type="102" alignment="0" attributes="0">
+                          <Component id="jLabel2" max="32767" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="0" attributes="0">
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="lblNombreNuevoLibro" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="txtNombreNuevoLibro" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -134,30 +143,34 @@
                               <Component id="lblCantidadNuevoLibro" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="txtCantidadNuevoLibro" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace max="-2" attributes="0"/>
+                          <EmptySpace pref="13" max="32767" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="lblPrecioNuevoLibro" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="txtPrecioNuevoLibro" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="lblAutorNuevoLibro" alignment="0" min="-2" max="-2" attributes="0"/>
                               <Component id="jcAutorNuevo" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="lblEditorialNuevoLibro" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jcEditorialNuevo" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
+                          <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="lblImagenNuevoLibro" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="btnImagenNuevoLibro" alignment="0" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="lblFechaNuevo" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="jDateChooser1" alignment="0" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
                       </Group>
-                      <Component id="jLabel2" max="32767" attributes="0"/>
                   </Group>
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="lblImagenNuevoLibro" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="btnImagenNuevoLibro" alignment="0" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="lblFechaNuevo" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="jDateChooser1" alignment="0" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <EmptySpace pref="75" max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="btnGuardarNuevoLibro" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="btnCancelarNuevoLibro" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -188,6 +201,9 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="txtCantidadNuevoLibro">
+          <Events>
+            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtCantidadNuevoLibroKeyTyped"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JComboBox" name="jcAutorNuevo">
           <Properties>
@@ -250,6 +266,16 @@
           </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel2">
+        </Component>
+        <Component class="javax.swing.JLabel" name="lblPrecioNuevoLibro">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Precio:"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JTextField" name="txtPrecioNuevoLibro">
+          <Events>
+            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtPrecioNuevoLibroKeyTyped"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

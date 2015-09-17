@@ -66,6 +66,12 @@ public class InterfazAgegarAutor extends javax.swing.JFrame {
 
         lblIdentificacionAutor.setText("Identificacion:");
 
+        txtIdentificacionAutor.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtIdentificacionAutorKeyTyped(evt);
+            }
+        });
+
         lblNacionalidadAutor.setText("Nacionalidad:");
 
         jLabel1.setText("Fecha de nacimiento:");
@@ -99,7 +105,7 @@ public class InterfazAgegarAutor extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(lblNacionalidadAutor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(lblIdentificacionAutor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(lblApellidoAutor, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
+                            .addComponent(lblApellidoAutor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(lblNombreAutor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -149,32 +155,45 @@ public class InterfazAgegarAutor extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAgregarAutorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarAutorActionPerformed
-        Autor autor = new Autor();
-        nombre = txtNombreAutor.getText();
-        apellido = txtApellidoAutor.getText();
-        identificacion = txtIdentificacionAutor.getText();
-        nacionalidad = txtNacionalidadAutor.getText();
-        autor.cambiarNombre(nombre);
-        autor.cambiarApellido(apellido);
-        autor.cambiarIdentificacion(identificacion);
-        autor.cambiarNacionalidad(nacionalidad);
-        SimpleDateFormat formatoFecha = new SimpleDateFormat("dd-MM-yyyy");
-        fecha = formatoFecha.format(jDateChooser1.getDate());
-        //fecha = jDateChooser1.getDate();
-        Fecha f = new Fecha();
-        f.cambiarFecha(fecha);
-        autor.cambiarFechaNacimiento(f);
-        interfazLibreria.agregarAutor(autor);
-        interfazLibreria.model.addRow(new Object[]{autor.darNombre(), autor.darApellido(), autor.darIdentificacion(), autor.darNacionalidad(), autor.darFecha().darFechaCompleta()});
-        //interfazLibreria.mostrarTablaAutores();
+        
+        if (txtNombreAutor.getText().equalsIgnoreCase("") || txtApellidoAutor.getText().equalsIgnoreCase("") || txtIdentificacionAutor.getText().equalsIgnoreCase("") || txtNacionalidadAutor.getText().equalsIgnoreCase("") || jDateChooser1.getDate()==null) {
+            JOptionPane.showMessageDialog(this, "No se aceptan campos nulos", "Autor", JOptionPane.ERROR_MESSAGE);
+        }else{
+        
+            Autor autor = new Autor();
+            nombre = txtNombreAutor.getText();
+            apellido = txtApellidoAutor.getText();
+            identificacion = txtIdentificacionAutor.getText();
+            nacionalidad = txtNacionalidadAutor.getText();
+            autor.cambiarNombre(nombre);
+            autor.cambiarApellido(apellido);
+            autor.cambiarIdentificacion(identificacion);
+            autor.cambiarNacionalidad(nacionalidad);
+            SimpleDateFormat formatoFecha = new SimpleDateFormat("dd-MM-yyyy");
+            fecha = formatoFecha.format(jDateChooser1.getDate());
+            //fecha = jDateChooser1.getDate();
+            Fecha f = new Fecha();
+            f.cambiarFecha(fecha);
+            autor.cambiarFechaNacimiento(f);
+            interfazLibreria.agregarAutor(autor);
+            interfazLibreria.model.addRow(new Object[]{autor.darNombre(), autor.darApellido(), autor.darIdentificacion(), autor.darNacionalidad(), autor.darFecha().darFechaCompleta()});
+            interfazLibreria.btnEditarAutor.setEnabled(true);
+            interfazLibreria.btnEliminarAutor.setEnabled(true);
 
-        JOptionPane.showMessageDialog(null, "Autor agregado!!!", "Autor", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Autor agregado!!!", "Autor", JOptionPane.INFORMATION_MESSAGE);
+        }
 
     }//GEN-LAST:event_btnAgregarAutorActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void txtIdentificacionAutorKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtIdentificacionAutorKeyTyped
+        char c = evt.getKeyChar();
+        if (c<'0' || c>'9') 
+            evt.consume();
+    }//GEN-LAST:event_txtIdentificacionAutorKeyTyped
 
 //    /**
 //     * @param args the command line arguments

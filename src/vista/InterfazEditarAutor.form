@@ -131,6 +131,9 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="txtEditarIdAutor">
+      <Events>
+        <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtEditarIdAutorKeyTyped"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="lblEditarNacionalidadAutor">
       <Properties>

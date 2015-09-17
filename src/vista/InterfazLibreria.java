@@ -245,6 +245,7 @@ public class InterfazLibreria extends javax.swing.JFrame {
         });
 
         btnEditarLibro.setText("Editar Libro");
+        btnEditarLibro.setEnabled(false);
         btnEditarLibro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEditarLibroActionPerformed(evt);
@@ -252,6 +253,7 @@ public class InterfazLibreria extends javax.swing.JFrame {
         });
 
         btnEliminarLibro.setText("Eliminar Libro");
+        btnEliminarLibro.setEnabled(false);
         btnEliminarLibro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEliminarLibroActionPerformed(evt);
@@ -259,6 +261,7 @@ public class InterfazLibreria extends javax.swing.JFrame {
         });
 
         btnComprarLibro.setText("Comprar Libro");
+        btnComprarLibro.setEnabled(false);
         btnComprarLibro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnComprarLibroActionPerformed(evt);
@@ -304,11 +307,11 @@ public class InterfazLibreria extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Nombre del libro", "Datos del cliente", "Cantidad", "Fecha de compra"
+                "Nombre del libro", "Datos del cliente", "Cantidad", "Fecha de compra", "Total ($)"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false, false, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -399,6 +402,7 @@ public class InterfazLibreria extends javax.swing.JFrame {
         });
 
         btnEditarEditorial.setText("Editar Editorial");
+        btnEditarEditorial.setEnabled(false);
         btnEditarEditorial.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEditarEditorialActionPerformed(evt);
@@ -406,6 +410,7 @@ public class InterfazLibreria extends javax.swing.JFrame {
         });
 
         btnEliminarEditorial.setText("Eliminar Editorial");
+        btnEliminarEditorial.setEnabled(false);
         btnEliminarEditorial.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEliminarEditorialActionPerformed(evt);
@@ -524,6 +529,7 @@ public class InterfazLibreria extends javax.swing.JFrame {
         });
 
         btnEditarAutor.setText("Editar Autor");
+        btnEditarAutor.setEnabled(false);
         btnEditarAutor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEditarAutorActionPerformed(evt);
@@ -531,6 +537,7 @@ public class InterfazLibreria extends javax.swing.JFrame {
         });
 
         btnEliminarAutor.setText("Eliminar Autor");
+        btnEliminarAutor.setEnabled(false);
         btnEliminarAutor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEliminarAutorActionPerformed(evt);
@@ -883,16 +890,23 @@ public class InterfazLibreria extends javax.swing.JFrame {
                         int cantidad = Integer.parseInt(txtCantidad.getText());
                         Cliente unCliente = new Cliente(txtNombre.getText(), txtApellido.getText(), txtIdentificacion.getText());
                         Venta unaVenta = new Venta(unLibro, unaFecha, unCliente, cantidad);
-                        if (unaVenta.realizarVenta() || cantidad < unLibro.darCantidad()) {
-                            JOptionPane.showMessageDialog(win, "La venta se realizó con éxito", "Libreria", JOptionPane.INFORMATION_MESSAGE);
-                            agregarVenta(unaVenta);
-                            modificarLibro(indice, unaVenta.cambiarLibro());
-                            modelLibro.setValueAt(unaVenta.cambiarLibro().darCantidad(), indice, 4);
-                            modelCompra.addRow(new Object[]{unaVenta.cambiarLibro().darNombre(), unaVenta.darCliente().darNombre() + " " + unaVenta.darCliente().darApellido(), unaVenta.darCantidad(), unaVenta.darFecha().toString()});
-                            win.dispose();
-                        } else {
-                            JOptionPane.showMessageDialog(win, "No se pudo reaizar la venta", "Libreria", JOptionPane.ERROR_MESSAGE);
+                        
+                        if(cantidad <= unLibro.darCantidad()){
+                            if (unaVenta.realizarVenta()) {
+                                JOptionPane.showMessageDialog(win, "La venta se realizó con éxito", "Libreria", JOptionPane.INFORMATION_MESSAGE);
+                                agregarVenta(unaVenta);
+                                modificarLibro(indice, unaVenta.cambiarLibro());
+                                modelLibro.setValueAt(unaVenta.cambiarLibro().darCantidad(), indice, 4);
+                                modelCompra.addRow(new Object[]{unaVenta.cambiarLibro().darNombre(), unaVenta.darCliente().darNombre() + " " + unaVenta.darCliente().darApellido(), unaVenta.darCantidad(), unaVenta.darFecha().toString(), unaVenta.totalVenta()});
+                                win.dispose();
+                            } else {
+                                JOptionPane.showMessageDialog(win, "No se pudo reaizar la venta", "Libreria", JOptionPane.ERROR_MESSAGE);
+                            }
+                        }else{
+                            JOptionPane.showMessageDialog(win, "No hay libros suficientes para la venta", "Libreria", JOptionPane.ERROR_MESSAGE);
                         }
+                        
+                        
                     } catch (NumberFormatException en) {
                         JOptionPane.showMessageDialog(win, "Error digite un número valido", "Libreria", JOptionPane.ERROR_MESSAGE);
                     }
@@ -968,13 +982,13 @@ public class InterfazLibreria extends javax.swing.JFrame {
     private javax.swing.JButton btnAgregarAutor;
     private javax.swing.JButton btnAgregarEditorial;
     private javax.swing.JButton btnAgregarLibro;
-    private javax.swing.JButton btnComprarLibro;
-    private javax.swing.JButton btnEditarAutor;
-    private javax.swing.JButton btnEditarEditorial;
-    private javax.swing.JButton btnEditarLibro;
-    private javax.swing.JButton btnEliminarAutor;
-    private javax.swing.JButton btnEliminarEditorial;
-    private javax.swing.JButton btnEliminarLibro;
+    public javax.swing.JButton btnComprarLibro;
+    public javax.swing.JButton btnEditarAutor;
+    public javax.swing.JButton btnEditarEditorial;
+    public javax.swing.JButton btnEditarLibro;
+    public javax.swing.JButton btnEliminarAutor;
+    public javax.swing.JButton btnEliminarEditorial;
+    public javax.swing.JButton btnEliminarLibro;
     private javax.swing.JButton btnSalir;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;

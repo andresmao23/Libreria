@@ -99,12 +99,18 @@ public class InterfazEditarEditorial extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCancelarNuevaEditorialActionPerformed
 
     private void btnGuardarNuevaEditorialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarNuevaEditorialActionPerformed
-        Editorial editorial = new Editorial();
-        nombre = txtEditarNombreEditorial.getText();
-        editorial.cmabiarNombre(nombre);
-        interfazLibreria.modificarEditorial(indice, editorial);
-        interfazLibreria.modelEditorial.setValueAt(editorial.darNombre(), interfazLibreria.jtDatosEditorial.getSelectedRow(), 0);
-        JOptionPane.showMessageDialog(this, "Edición exitosa!!!", "Seleccionar elemento", JOptionPane.INFORMATION_MESSAGE);
+        
+        if (txtEditarNombreEditorial.getText().equalsIgnoreCase("")) {
+            JOptionPane.showMessageDialog(this, "No se aceptan campos nulos", "Editorial", JOptionPane.ERROR_MESSAGE);
+        }else{
+        
+            Editorial editorial = new Editorial();
+            nombre = txtEditarNombreEditorial.getText();
+            editorial.cmabiarNombre(nombre);
+            interfazLibreria.modificarEditorial(indice, editorial);
+            interfazLibreria.modelEditorial.setValueAt(editorial.darNombre(), interfazLibreria.jtDatosEditorial.getSelectedRow(), 0);
+            JOptionPane.showMessageDialog(this, "Edición exitosa!!!", "Seleccionar elemento", JOptionPane.INFORMATION_MESSAGE);
+        }
     }//GEN-LAST:event_btnGuardarNuevaEditorialActionPerformed
 
     
