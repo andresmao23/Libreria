@@ -59,32 +59,32 @@ public class InterfazLibreria extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }
 
-    public void mostrarTablaLibros() {
-        DefaultTableModel modelo = new DefaultTableModel();
-        modelo.addColumn("Nombre");
-        modelo.addColumn("Idioma");
-        modelo.addColumn("Autor");
-        modelo.addColumn("Editorial");
-        modelo.addColumn("Precio");
-        jtDatosLibro.setModel(modelo);
-
-        String[] datos = new String[5];
-        datos[0] = "Cien años de soledad";
-        datos[1] = "Español";
-        datos[2] = "Gabriel Garcia M.";
-        datos[3] = "McGraw-Hill";
-        datos[4] = "$" + String.valueOf(25000);
-        modelo.addRow(datos);
-    }
-
-    public void mostrarTablaDetalleCompra() {
-        DefaultTableModel modelo = new DefaultTableModel();
-        modelo.addColumn("Nombre");
-        modelo.addColumn("Autor");
-        modelo.addColumn("Editorial");
-        modelo.addColumn("Subtotal");
-        jtDetalleCopra.setModel(modelo);
-    }
+//    public void mostrarTablaLibros() {
+//        DefaultTableModel modelo = new DefaultTableModel();
+//        modelo.addColumn("Nombre");
+//        modelo.addColumn("Idioma");
+//        modelo.addColumn("Autor");
+//        modelo.addColumn("Editorial");
+//        modelo.addColumn("Precio");
+//        jtDatosLibro.setModel(modelo);
+//
+//        String[] datos = new String[5];
+//        datos[0] = "Cien años de soledad";
+//        datos[1] = "Español";
+//        datos[2] = "Gabriel Garcia M.";
+//        datos[3] = "McGraw-Hill";
+//        datos[4] = "$" + String.valueOf(25000);
+//        modelo.addRow(datos);
+//    }
+//
+//    public void mostrarTablaDetalleCompra() {
+//        DefaultTableModel modelo = new DefaultTableModel();
+//        modelo.addColumn("Nombre");
+//        modelo.addColumn("Autor");
+//        modelo.addColumn("Editorial");
+//        modelo.addColumn("Subtotal");
+//        jtDetalleCopra.setModel(modelo);
+//    }
 
     public ArrayList<Editorial> darListaEditorial() {
         return libreria.darListaEditorial();
@@ -252,6 +252,11 @@ public class InterfazLibreria extends javax.swing.JFrame {
         });
 
         btnEliminarLibro.setText("Eliminar Libro");
+        btnEliminarLibro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarLibroActionPerformed(evt);
+            }
+        });
 
         btnComprarLibro.setText("Comprar Libro");
         btnComprarLibro.addActionListener(new java.awt.event.ActionListener() {
@@ -636,11 +641,20 @@ public class InterfazLibreria extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnEditarLibroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarLibroActionPerformed
-
-        InterfazEditarLibro edit = new InterfazEditarLibro();
-        edit.setEnabled(true);
-        edit.setLocationRelativeTo(this);
-        edit.setVisible(true);
+        
+        ArrayList<Libro> lista = libreria.darListaLibro();
+        if (jtDatosLibro.getSelectedRow() == -1) {
+            JOptionPane.showMessageDialog(this, "Debe seleccionar un elemento de la lista", "Seleccionar libro", JOptionPane.ERROR_MESSAGE);
+        } else {
+            Libro l = (Libro) lista.get(jtDatosLibro.getSelectedRow());
+            
+            InterfazEditarLibro edit = new InterfazEditarLibro(this);
+            edit.datosLibro(jtDatosLibro.getSelectedRow(), l);
+            edit.setEnabled(true);
+            edit.setLocationRelativeTo(this);
+            edit.setVisible(true);
+        }        
+        
     }//GEN-LAST:event_btnEditarLibroActionPerformed
 
     private void btnAgregarLibroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarLibroActionPerformed
@@ -909,6 +923,17 @@ public class InterfazLibreria extends javax.swing.JFrame {
         System.exit(0);
     }//GEN-LAST:event_btnSalirActionPerformed
 
+    private void btnEliminarLibroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarLibroActionPerformed
+        if (jtDatosLibro.getSelectedRow() == -1) {
+            JOptionPane.showMessageDialog(this, "Debe seleccionar un elemento de la lista", "Eliminar libro", JOptionPane.ERROR_MESSAGE);
+        } else {
+            int indice = jtDatosLibro.getSelectedRow();
+            eliminarLibro(indice);
+            modelLibro.removeRow(indice);
+            JOptionPane.showMessageDialog(this, "Eliminación exitosa!!!", "Eliminar libro", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }//GEN-LAST:event_btnEliminarLibroActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -963,7 +988,7 @@ public class InterfazLibreria extends javax.swing.JFrame {
     private javax.swing.JPanel jpLibro;
     public javax.swing.JTable jtDatosAutor;
     public javax.swing.JTable jtDatosEditorial;
-    private javax.swing.JTable jtDatosLibro;
+    public javax.swing.JTable jtDatosLibro;
     private javax.swing.JTable jtDetalleCopra;
     private javax.swing.JLabel lblBuscarAutor;
     private javax.swing.JLabel lblBuscarEditorial;

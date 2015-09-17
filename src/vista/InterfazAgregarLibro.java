@@ -30,7 +30,7 @@ import modelo.Libro;
  *
  * @author Mao
  */
-public class InterfazAgregarLibro extends javax.swing.JDialog {
+public class InterfazAgregarLibro extends javax.swing.JFrame {
 
     private InterfazLibreria interfazLibreria;
 
@@ -56,7 +56,7 @@ public class InterfazAgregarLibro extends javax.swing.JDialog {
     public InterfazAgregarLibro(InterfazLibreria win) {
         interfazLibreria = win;
         seleccionado = new JFileChooser();
-        this.setModal(true);
+//        this.setModal(true);
         initComponents();
         llenarAutor();
         llenarEditorial();
